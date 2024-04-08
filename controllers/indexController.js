@@ -31,7 +31,7 @@ exports.createGame = asyncHandler(async (req, res, next) => {
       gameData.game = "coins";
       break;
     default:
-      gameDate.game = "text";
+      gameData.game = "text";
       break;
   };
 
