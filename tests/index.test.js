@@ -28,8 +28,15 @@ test('Get Create Game', async () => {
     .expect('Content-Type', /json/)
     .expect(200)
 
+  let expectedName = "";  // Expect 'text' unlexx one of the following 3 options
+  if (gameName != "text" && gameName != "waldo" && gameName != "coins") {
+    expectedName = /text/;
+  } else {
+    expectedName = gameName;
+  }
+
   const parsedResult = JSON.parse(result.text);
   expect(parsedResult.date).toMatch(/Z/);
   expect(parsedResult.src).toMatch(/Temp String/);
-  expect(parsedResult.game).toMatch(gameName);
+  expect(parsedResult.game).toMatch(expectedName);
 })

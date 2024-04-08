@@ -20,23 +20,15 @@ exports.createGame = asyncHandler(async (req, res, next) => {
     date: new Date().toISOString(),
   };
 
-  switch (game) {
-    case "text":
-      gameData.game = "text";
-      break;
-    case "waldo":
-      gameData.game = "waldo";
-      break;
-    case "coins":
-      gameData.game = "coins";
-      break;
-    default:
-      gameData.game = "text";
-      break;
-  };
+  if (game === "text" | game === "waldo" | game === "coins") {
+    gameData.game = game;
+  } else {
+    gameData.game = "text";
+  }
 
   const sessionId = generateSessionId();
   res.cookie('sessionId', sessionId);
+  console.log(gameData);
   res.json(gameData);
 });
 
