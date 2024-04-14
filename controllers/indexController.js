@@ -36,7 +36,6 @@ exports.intro = (req, res, next) => {
     const responseObject = coordinateComparator(gameName, locationName, locationCoords);
     gameData.score[locationName] = responseObject.success;
     winChecker(responseObject, gameData);
-    console.log(gameData);
 
     // Return actioned game data
     req.session[gameName] = gameData;
@@ -68,7 +67,6 @@ exports.easy = (req, res, next) => {
     const responseObject = coordinateComparator(gameName, locationName, locationCoords);
     gameData.score[locationName] = responseObject.success;
     winChecker(responseObject, gameData);
-    console.log(gameData);
 
     // Return actioned game data
     req.session[gameName] = gameData;
@@ -100,7 +98,6 @@ exports.medium = (req, res, next) => {
     const responseObject = coordinateComparator(gameName, locationName, locationCoords);
     gameData.score[locationName] = responseObject.success;
     winChecker(responseObject, gameData);
-    console.log(gameData);
 
     // Return actioned game data
     req.session[gameName] = gameData;
@@ -132,7 +129,6 @@ exports.hard = (req, res, next) => {
     const responseObject = coordinateComparator(gameName, locationName, locationCoords);
     gameData.score[locationName] = responseObject.success;
     winChecker(responseObject, gameData);
-    console.log(gameData);
 
     // Return actioned game data
     req.session[gameName] = gameData;

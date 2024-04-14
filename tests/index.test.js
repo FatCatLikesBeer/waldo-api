@@ -30,13 +30,79 @@ app.use('/', indexRouter);
 
 // GET /easy: no query
 test("Create 'easy' game", async () => {
-  const result = await request(app)
+  const req = await request(app)
     .get('/easy')
     .expect('Content-Type', /json/)
     .expect(200)
 
-  const parsedResult = JSON.parse(result.text);
-  expect(parsedResult.location).toBeNull();
-  expect(parsedResult.success).toBeFalsy();
-  expect(parsedResult.win).toBeFalsy();
+  const result = JSON.parse(req.text);
+  expect(result.location).toBeNull();
+  expect(result.success).toBeFalsy();
+  expect(result.win).toBeFalsy();
 });
+
+// GET /easy: new game & query
+test("Create 'easy' game and one location", async () => {
+  const initialGet = await request(app)
+    .get('/easy')
+    .expect('Content-Type', /json/)
+    .expect(200)
+
+  const cookie = initialGet.headers['set-cookie'];
+
+  const response = await request(app)
+    .get('/easy?name=first&locX=0&locY=0')
+    .set('Cookie', cookie)
+    .expect('Content-Type', /json/)
+    .expect(200)
+
+  const result = JSON.parse(response.text);
+  expect(result.location).toBe("first");
+  expect(result.success).toBeFalsy();
+  expect(result.win).toBeFalsy();
+  expect(result.time).toBeNull();
+});
+
+// GET /easy: & win game
+test("Create 'easy' game and win it", async () => {
+  const easy = {
+    "first" : [247,9],
+    "second":[487,11],
+    "third":[40,334]
+  };
+  const initialGet = await request(app)
+    .get('/easy')
+    .expect('Content-Type', /json/)
+    .expect(200)
+
+  let cookie = initialGet.headers['set-cookie'];
+
+  const first = await request(app)
+    .get(`/easy?name=first&locX=${easy.first[0]}&locY=${easy.first[1]}`)
+    .set('Cookie', cookie)
+    .expect('Content-Type', /json/)
+    .expect(200)
+
+  cookie = first.headers['set-cookie'];
+
+  const second = await request(app)
+    .get(`/easy?name=second&locX=${easy.second[0]}&locY=${easy.second[1]}`)
+    .set('Cookie', cookie)
+    .expect('Content-Type', /json/)
+    .expect(200)
+
+  cookie = second.headers['set-cookie'];
+
+  const third = await request(app)
+    .get(`/easy?name=third&locX=${easy.third[0]}&locY=${easy.third[1]}`)
+    .set('Cookie', cookie)
+    .expect('Content-Type', /json/)
+    .expect(200)
+
+  const result = JSON.parse(third.text);
+  expect(result.location).toBe("third");
+  expect(result.success).toBeTruthy();
+  expect(result.win).toBeTruthy();
+  expect(result.time).toBeGreaterThan(0);
+});
+
