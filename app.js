@@ -2,9 +2,9 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const cookieSession = require('cookie-session');
 const logger = require('morgan');
 const cors = require('cors');
-const cookieSession = require('cookie-session');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index.js');
@@ -23,7 +23,7 @@ app.use(cookieSession({
   name: 'session',
   secret: process.env.sessionSecret,
   maxAge: 1000 * 60 * 60 * 4 // 4 hour session
-}))
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 

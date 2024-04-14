@@ -15,17 +15,17 @@ exports.index = asyncHandler(async (req, res, next) => {
 //// ==== INTRO CONTROLLER ==== ////
 exports.intro = (req, res, next) => {
   const gameName = "intro";
-  if (req.session[gameName].win == true) {
-    // Force a new game if client has previous win
-    req.query.name = null;
-    console.log(req.query.name);
-  };
   if (!req.query.name) {
 
     // New Game
     newGameInit(req.session, gameName, newGameData);
     res.json({ location: null, success: false, win: false, time: null });
   } else {
+    // Force a new game if client has previous win
+    if (req.session[gameName].win === true) {
+      newGameInit(req.session, gameName, newGameData);
+      res.json({ location: null, success: false, win: false, time: null });
+    };
 
     // Parse out game data
     const locationName = req.query.name;
@@ -47,17 +47,17 @@ exports.intro = (req, res, next) => {
 //// ==== EASY CONTROLLER ==== ////
 exports.easy = (req, res, next) => {
   const gameName = "easy";
-  if (req.session[gameName].win == true) {
-    // Force a new game if client has previous win
-    req.query.name = null;
-    console.log(req.query.name);
-  };
   if (!req.query.name) {
 
     // New Game
     newGameInit(req.session, gameName, newGameData);
     res.json({ location: null, success: false, win: false, time: null });
   } else {
+    // Force a new game if client has previous win
+    if (req.session[gameName].win === true) {
+      newGameInit(req.session, gameName, newGameData);
+      res.json({ location: null, success: false, win: false, time: null });
+    };
 
     // Parse out game data
     const locationName = req.query.name;
@@ -79,17 +79,17 @@ exports.easy = (req, res, next) => {
 //// ==== MEDIUM CONTROLLER ==== ////
 exports.medium = (req, res, next) => {
   const gameName = "medium";
-  if (req.session[gameName].win == true) {
-    // Force a new game if client has previous win
-    req.query.name = null;
-    console.log(req.query.name);
-  };
   if (!req.query.name) {
 
     // New Game
     newGameInit(req.session, gameName, newGameData);
     res.json({ location: null, success: false, win: false, time: null });
   } else {
+    // Force a new game if client has previous win
+    if (req.session[gameName].win === true) {
+      newGameInit(req.session, gameName, newGameData);
+      res.json({ location: null, success: false, win: false, time: null });
+    };
 
     // Parse out game data
     const locationName = req.query.name;
@@ -111,17 +111,17 @@ exports.medium = (req, res, next) => {
 //// ==== HARD CONTROLLER ==== ////
 exports.hard = (req, res, next) => {
   const gameName = "hard";
-  if (req.session[gameName].win == true) {
-    // Force a new game if client has previous win
-    req.query.name = null;
-    console.log(req.query.name);
-  };
   if (!req.query.name) {
 
     // New Game
     newGameInit(req.session, gameName, newGameData);
     res.json({ location: null, success: false, win: false, time: null });
   } else {
+    // Force a new game if client has previous win
+    if (req.session[gameName].win === true) {
+      newGameInit(req.session, gameName, newGameData);
+      res.json({ location: null, success: false, win: false, time: null });
+    };
 
     // Parse out game data
     const locationName = req.query.name;
