@@ -1,8 +1,8 @@
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
-const cookieParser = require('cookie-parser');
-const cookieSession = require('cookie-session');
+// const cookieParser = require('cookie-parser');
+// const cookieSession = require('cookie-session');
 const logger = require('morgan');
 const cors = require('cors');
 require('dotenv').config();
@@ -18,12 +18,12 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(cookieSession({
-  name: 'session',
-  secret: process.env.sessionSecret,
-  maxAge: 1000 * 60 * 60 * 4 // 4 hour session
-}));
+// app.use(cookieParser());
+// app.use(cookieSession({
+//   name: 'session',
+//   secret: process.env.sessionSecret,
+//   maxAge: 1000 * 60 * 60 * 4 // 4 hour session
+// }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
