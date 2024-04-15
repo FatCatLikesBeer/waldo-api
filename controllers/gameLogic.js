@@ -1,4 +1,5 @@
 // gameLogic.js
+const { encode, decode } = require('./encryptAndDecrypt.js');
 
 // New game data
 exports.newGameData = function() {

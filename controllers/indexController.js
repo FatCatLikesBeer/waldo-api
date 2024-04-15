@@ -71,9 +71,9 @@ exports.test = asyncHandler(async (req, res, next) => {
     locY: req.query.locY,
   };
 
-  const encryptedObject = encrypt(JSON.stringify(message));
+  const encryptedObject = encrypt(message);
   console.log(encryptedObject);
   const decryptedObject = decrypt(encryptedObject);
   console.log(decryptedObject);
-  res.json(JSON.parse(decryptedObject));
+  res.json(decryptedObject);
 });
