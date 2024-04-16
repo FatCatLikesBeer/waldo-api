@@ -20,31 +20,37 @@ exports.intro = (req, res, next) => {
 //// ==== EASY CONTROLLER ==== ////
 exports.easy = (req, res, next) => {
   const gameName = "easy";
-  if (!req.query.name) {
+  if (!req.body.location) {
 
     // New Game
-    newGameInit(req.session, gameName, newGameData);
-    res.json({ location: null, success: false, win: false, time: null });
+    const result = newGameData();
+    res.json(result);
   } else {
+    // Parse game data
+
+    const result = {...req.body};
+    console.log(req.body.score);
+    res.json(result);
+
     // Force a new game if client has previous win
-    if (req.session[gameName].win === true) {
-      newGameInit(req.session, gameName, newGameData);
-      res.json({ location: null, success: false, win: false, time: null });
-    };
-
-    // Parse out game data
-    const locationName = req.query.name;
-    const locationCoords = [req.query.locX, req.query.locY];
-    const gameData = req.session[gameName];
-
-    // Do stuff with game data
-    const responseObject = coordinateComparator(gameName, locationName, locationCoords);
-    gameData.score[locationName] = responseObject.success;
-    winChecker(responseObject, gameData);
-
-    // Return actioned game data
-    req.session[gameName] = gameData;
-    res.json(responseObject);
+    // if (false) {
+    //   newGameInit(req.session, gameName, newGameData);
+    //   res.json({ location: null, success: false, win: false, time: null });
+    // };
+    //
+    // // Parse out game data
+    // const locationName = req.query.name;
+    // const locationCoords = [req.query.locX, req.query.locY];
+    // const gameData = req.session[gameName];
+    //
+    // // Do stuff with game data
+    // const responseObject = coordinateComparator(gameName, locationName, locationCoords);
+    // gameData.score[locationName] = responseObject.success;
+    // winChecker(responseObject, gameData);
+    //
+    // // Return actioned game data
+    // req.session[gameName] = gameData;
+    // res.json(responseObject);
   };
 };
 
@@ -77,3 +83,11 @@ exports.test = asyncHandler(async (req, res, next) => {
   console.log(decryptedObject);
   res.json(decryptedObject);
 });
+
+exports.test_post = async (req, res, next) => {
+  if (req.body.red === "Milwaukee") {
+    res.json({ message: "Success" });
+  } else {
+    res.json({ message: "Fucking failure" });
+  };
+};

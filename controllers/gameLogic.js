@@ -1,16 +1,20 @@
 // gameLogic.js
-const { encode, decode } = require('./encryptAndDecrypt.js');
+const { encrypt, decrypt } = require('./encryptAndDecrypt');
 
 // New game data
 exports.newGameData = function() {
-  result = {
+  const scoreData = {
+    first: false,
+    second: false,
+    third: false,
     startTime: new Date(),
+  };
+  const score = encrypt(scoreData);
+  const result = {
+    location: null,
+    success: false,
     win: false,
-    score: {
-      first: false,
-      second: false,
-      third: false,
-    }
+    score: score,
   };
   return result;
 };
