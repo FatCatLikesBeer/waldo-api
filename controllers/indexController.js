@@ -29,7 +29,6 @@ exports.easy = (req, res, next) => {
     // Parse game data
 
     const result = {...req.body};
-    console.log(req.body.score);
     res.json(result);
 
     // Force a new game if client has previous win
