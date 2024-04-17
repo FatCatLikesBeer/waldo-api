@@ -20,7 +20,7 @@ exports.intro = (req, res, next) => {
 //// ==== EASY CONTROLLER ==== ////
 exports.easy = (req, res, next) => {
   const gameName = "easy";
-  if (!req.body.location) {
+  if (!req.body.score) {
 
     // New Game
     const result = newGameData();
@@ -29,6 +29,8 @@ exports.easy = (req, res, next) => {
     // Parse game data
 
     const result = {...req.body};
+    result.success = true;
+    console.log(result.score);
     res.json(result);
 
     // Force a new game if client has previous win
@@ -87,6 +89,6 @@ exports.test_post = async (req, res, next) => {
   if (req.body.red === "Milwaukee") {
     res.json({ message: "Success" });
   } else {
-    res.json({ message: "Fucking failure" });
+    res.json({ message: "Fucking" });
   };
 };
