@@ -1,25 +1,32 @@
 // gameLogic.js
 const { encrypt, decrypt } = require('./encryptAndDecrypt');
+const IntroModel = require('../models/introSchema');
+const EasyModel = require('../models/easySchema');
+const MediumModel = require('../models/mediumSchema');
+const HardModel = require('../models/hardSchema');
 
+//////
 // New game data
-exports.newGameData = function() {
-  const scoreData = {
-    first: false,
-    second: false,
-    third: false,
-    startTime: new Date(),
-  };
-  const score = encrypt(scoreData);
+//////
+exports.newGameData = function(gameName) {
   const result = {
+    gameName: gameName,
     location: null,
     success: false,
     win: false,
-    score: score,
+    score: encrypt({
+      first: false,
+      second: false,
+      third: false,
+      startTime: new Date(),
+    }),
   };
   return result;
 };
 
-// Win Checker
+//////
+// Game Win Checker
+//////
 function winChecker(gameData, score, responseObject) {
   // Are all the scores true?
   const didPlayerWin = score.first && score.second && score.third;
@@ -34,10 +41,9 @@ function winChecker(gameData, score, responseObject) {
   };
 };
 
+//////
 // Compare Coordinate Data
-// A truth table is the first thing which came to mind
-// with which to compare if both locations were correct.
-// That's what I get for studying philosophy...
+//////
 exports.coordinateComparator = function(gameName, gameData) {
   // Decrypt previous user scores
   const score = decrypt(gameData.score);
