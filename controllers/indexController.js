@@ -64,9 +64,46 @@ exports.hard = (req, res, next) => {
   };
 };
 
+//// ==== GET LEADERBOARD ==== ////
 exports.leaderboard_get = asyncHandler(async (req, res, next) => {
+  const gameName = req.query.name;
+  let LeaderBoard;
+  try {
+    switch (gameName) {
+      case "intro":
+        LeaderBoard = IntroModel;
+        break;
+      case "easy":
+        LeaderBoard = EasyModel;
+        break;
+      case "medium":
+        LeaderBoard = MediumModel;
+        break;
+      case "hard":
+        LeaderBoard = HardModel;
+        break;
+      default:
+        throw new Error("Game name is not in URI");
+        break;
+    };
+  } catch (error) {
+    console.log(error);
+    const errorMessage = "Game name is incorrect.";
+    res.json({
+      success: false,
+      message: errorMessage,
+    });
+    return;
+  };
+  const leaderBoard = await LeaderBoard.find().sort({ date: 1 }).exec();
+  res.json({
+    success: true,
+    message: `Leader Board Fetch Success for ${gameName}`,
+    data: leaderBoard,
+  })
 });
 
+//// ==== POST TO LEADERBOARD ==== ////
 exports.leaderboard_post = [
   body("name", "Name requires minimum 3 characters")
     .trim()
@@ -94,12 +131,14 @@ exports.leaderboard_post = [
     try {
       score = decrypt(encryptedScore);
     } catch (error) {
-      console.error("Could not decrypt score!", error);
+      const errorMessage = "Score is not genuine!";
+      console.error(errorMessage, error);
       res.json({
         success: false,
-        message: "Score is not genuine",
+        message: errorMessage,
       });
-    }
+      return;
+    };
     if (score.first && score.second && score.third) {
       let win;
       let WinningModel;
@@ -151,8 +190,10 @@ exports.leaderboard_post = [
   })
 ];
 
+//// ==== TEST GET REQUESTS HERE ==== ////
 exports.test = asyncHandler(async (req, res, next) => {
 });
 
+//// ==== TEST POST REQUESTS HERE ==== ////
 exports.test_post = async (req, res, next) => {
 };
