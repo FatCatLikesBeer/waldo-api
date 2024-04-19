@@ -95,7 +95,7 @@ exports.leaderboard_get = asyncHandler(async (req, res, next) => {
     });
     return;
   };
-  const leaderBoard = await LeaderBoard.find().sort({ date: 1 }).exec();
+  const leaderBoard = await LeaderBoard.find().sort({ date: -1 }).exec();
   res.json({
     success: true,
     message: `Leader Board Fetch Success for ${gameName}`,
@@ -118,12 +118,10 @@ exports.leaderboard_post = [
     const errors = validationResult(req);
     const [
       name,
-      time,
       gameName,
       encryptedScore
     ] = [
         req.body.name,
-        req.body.time,
         req.body.gameName,
         req.body.score,
       ];
@@ -160,7 +158,7 @@ exports.leaderboard_post = [
       }
       win = new WinningModel({
         name: name,
-        time: time,
+        time: score.time,
       });
       if (!errors.isEmpty()) {
         const resultObject = {

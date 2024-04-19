@@ -19,6 +19,7 @@ exports.newGameData = function(gameName) {
       second: false,
       third: false,
       startTime: new Date(),
+      time: null,
     }),
   };
   return result;
@@ -35,7 +36,7 @@ function winChecker(gameData, score, responseObject) {
     const startTime = new Date(score.startTime);
     const endTime = new Date();
     const duration = endTime - startTime;
-    responseObject.time = duration;
+    responseObject.time = score.time = duration;
     responseObject.url = "http://free.local:3000/leaderboard";
     responseObject.win = didPlayerWin;
   };
@@ -88,7 +89,7 @@ exports.coordinateComparator = function(gameName, gameData) {
   // Encrypt score
   responseObject.score = encrypt(score);
 
-  console.log(responseObject);
+                                                  console.log("gameLogic.js Right before returning responseObject:", responseObject);
   // Return data
   return responseObject;
 };
