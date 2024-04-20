@@ -95,7 +95,7 @@ exports.leaderboard_get = asyncHandler(async (req, res, next) => {
     });
     return;
   };
-  const leaderBoard = await LeaderBoard.find().sort({ date: -1 }).exec();
+  const leaderBoard = await LeaderBoard.find().sort({ time: 1 }).limit(10).exec();
   res.json({
     success: true,
     message: `Leader Board Fetch Success for ${gameName}`,
