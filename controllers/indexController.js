@@ -115,7 +115,9 @@ exports.leaderboard_post = [
     .escape(),
 
   asyncHandler(async (req, res, next) => {
+                                                                            console.log("Entered async handler");
     const errors = validationResult(req);
+                                                                            console.log("After error validation");
     const [
       name,
       gameName,
@@ -125,9 +127,11 @@ exports.leaderboard_post = [
         req.body.gameName,
         req.body.score,
       ];
+                                                                            console.log("After array destructuring");
     let score;
     try {
       score = decrypt(encryptedScore);
+                                                                            console.log("End of TRY block");
     } catch (error) {
       const errorMessage = "Score is not genuine!";
       console.error(errorMessage, error);
@@ -136,6 +140,7 @@ exports.leaderboard_post = [
         message: errorMessage,
       });
       return;
+                                                                            console.log("End of CATCH block");
     };
     if (score.first && score.second && score.third) {
       let win;
@@ -156,6 +161,7 @@ exports.leaderboard_post = [
         default:
           break;
       }
+                                                                            console.log("End of SWITCH CASE");
       win = new WinningModel({
         name: name,
         time: score.time,
@@ -165,14 +171,16 @@ exports.leaderboard_post = [
           success: false,
           message: errors.errors[0].msg,
         }
+                                                                            console.log("Inside of error checker");
         res.json(resultObject);
       } else {
-        await win.save();
+        await win.save();                                                // win.save();
         const resultObject = {
           success: true,
           message: "You're on the leaderboard!",
         }
         res.json(resultObject);
+                                                                            console.log("Success object sent");
       }
     } else {
       console.error("Goals contain losses...");
